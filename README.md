@@ -1,1 +1,3 @@
--Project 3.
+--How to use:
+- To move shapes down left or right you can press the corresponding arrow key.
+- To rotate left you can press A key and D key to rotate right.
