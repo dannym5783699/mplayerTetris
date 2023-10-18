@@ -1,3 +1,12 @@
 --How to use:
 - To move shapes down left or right you can press the corresponding arrow key.
 - To rotate left you can press A key and D key to rotate right.
+- The game is started when the program is started.
+
+--Project Description:
+- This game is Tetris. The goal is to make full rows out of the shapes to clear the lines.
+- You must also avoid reaching the top, or you lose.
+- Once a line is filled up it is cleared, moving lines above down.
+- Random shapes appear at the top that you can rotate and move left, right or down.
+- Once a shape hits the bottom of the board or is on top of another block you cannot move it.
+- Only falling blocks can be moved.

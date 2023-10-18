@@ -50,6 +50,12 @@ public class Board {
 
             }
         }
+
+        /**
+         * Sets the x value of the shape, returns true if properly set and false if not.
+         * @param x to set, shape x positions.
+         * @return returns true if set and false if not.
+         */
         private boolean setX(int x){
             if(x >= -2 && x<columns){
                 this.x = x;
@@ -58,6 +64,11 @@ public class Board {
             return false;
         }
 
+        /**
+         * Sets the y value of the shape. Returns true if it was set and false if it was not.
+         * @param y the y value of the shape location.
+         * @return Returns true if that value was set and false if it was not.
+         */
         private boolean setY(int y){
             if(y>=-2 && y<rows){
                 this.y = y;
@@ -85,6 +96,30 @@ public class Board {
         private void setSquareLocations(int [][] newArray){
             this.squareLocations = newArray;
         }
+
+        /**
+         * Checks if the shape can be moved, if it cannot move down then it cannot move.
+         * @return True if shape can be moved and false if not.
+         */
+        public boolean isCanMove() {
+            return canMove;
+        }
+
+        /**
+         * Gets the x location value from the shape.
+         * @return x location of initial index.
+         */
+        public int getX(){
+            return this.x;
+        }
+
+        /**
+         * Gets the y position of the first shape index.
+         * @return y location of initial grid index.
+         */
+        public int getY(){
+            return this.y;
+        }
     }
 
     /**
@@ -99,7 +134,7 @@ public class Board {
         this.border = new Rectangle();
         border.setHeight(800);
         border.setWidth(500);
-        border.setFill(Color.SILVER);
+        border.setFill(Color.DARKGRAY);
         border.setStroke(Color.BLACK);
         gameStack.getChildren().add(border);
         gameStack.getChildren().add(gameGrid);
@@ -124,7 +159,7 @@ public class Board {
     }
 
     /**
-     * Adds shape to grid, assumes it can fit.
+     * Adds shape to grid, assumes it can fit within the game grid.
      * @param startX Where to place the beginning x in the grid.
      * @param startY Where to place the beginning y in the grid.
      * @param shape Shape to add.
@@ -195,10 +230,10 @@ public class Board {
 
     /**
      * Checks if a piece can be added to a position in the baord.
-     * @param x
-     * @param y
-     * @param shape
-     * @return
+     * @param x column to place the top left of shape grid in full grid.
+     * @param y row to place the top left of shape grid into full grid.
+     * @param shape shape to add.
+     * @return returns true if added and false if not.
      */
     private synchronized boolean canAdd(int x, int y, TetrisShape shape){
         int arraySize = shape.getShapeSize();
@@ -224,7 +259,7 @@ public class Board {
      * Moves a shape to a new location with x and y offset. Assumes shape is already added.
      * @param xDir offset from original x.
      * @param yDir offset from original y.
-     * @param shape
+     * @param shape shape to move.
      */
     public synchronized void moveShape(int xDir, int yDir, TetrisShape shape){
         int newX = shape.x + xDir;
@@ -244,7 +279,7 @@ public class Board {
     /**
      * Rotates an  existing shape.
      * @param dir positive for right rotate and 0 or less for left rotate.
-     * @param shape
+     * @param shape shape to rotate.
      */
     public void rotateShape(int dir, TetrisShape shape){
         if(shape.canMove) {
@@ -284,12 +319,93 @@ public class Board {
      */
     public boolean addTetrisPiece(TetrisShape shape){
         boolean canAdd = false;
-        if(shape.getShapeSize() < 10){
+        if(shape != null && shape.getShapeSize() < 10){
             int startX = (columns/2) - (shape.getShapeSize()/2);
             int startY = 0;
             canAdd = addShape(startX, startY, shape);
+            if(canAdd){
+                removeShape(shape);
+                if(!canAdd(startX, startY+1, shape)){
+                    shape.canMove = false;
+                }
+                addShape(startX, startY, shape);
+            }
         }
         return canAdd;
+    }
+
+    /**
+     * Deletes a row from the board. Assumes valid row index is given.
+     * @param row row to delete.
+     * @return always returns true.
+     */
+    public boolean deleteRow(int row){
+        for(int r = row; r>0; r--){
+            for(int c = 0; c<columns; c++){
+                fullGrid[c][r] = fullGrid[c][r-1];
+
+                if(r==row){
+                    for(int i = 0; i<gameGrid.getChildren().size(); i++){
+                        Node current = gameGrid.getChildren().get(i);
+                        if(GridPane.getColumnIndex(current) == c && GridPane.getRowIndex(current) == row){
+                            gameGrid.getChildren().remove(current);
+                            i--;
+                        }
+                    }
+                }
+                for (int i = 0; i < gameGrid.getChildren().size(); i++) {
+                    Node current = gameGrid.getChildren().get(i);
+                    if (GridPane.getColumnIndex(current) == c && GridPane.getRowIndex(current) == r - 1) {
+                        gameGrid.getChildren().remove(current);
+                        gameGrid.add(current, c, r);
+                        i--;
+                    }
+                }
+
+
+
+            }
+        }
+        for(int c= 0; c<columns; c++){
+            Rectangle rect = new Rectangle(25, 20);
+            rect.setFill(Color.TRANSPARENT);
+            gameGrid.add(rect, c, 0);
+            fullGrid[c][0] = 0;
+
+        }
+        return true;
+    }
+
+    /**
+     * Finds out if a row in the grid is full of squares. Assumes row is valid.
+     * @param row what row to check
+     * @return returns true if the row is full and false if not.
+     */
+    public boolean fullRow(int row){
+        boolean rowFull = true;
+        for(int c = 0; c<columns; c++){
+            if(fullGrid[c][row] == 0){
+                rowFull = false;
+                break;
+            }
+        }
+        return rowFull;
+    }
+
+    /**
+     * Gets rows.
+     * @return returns the number of rows in the board.
+     */
+    public int getRows(){
+        return rows;
+    }
+
+    /**
+     * Gets the number of columns.
+     * @return returns the number of columns in the grid.
+     */
+    public int getColumns(){
+        return columns;
     }
 
 
