@@ -11,10 +11,7 @@ import java.util.function.Predicate;
  * @author Danny Metcalfe
  */
 public class Board {
-    private final BorderPane gameLayout;
     private final GridPane gameGrid;
-    private final StackPane gameStack;
-    private final Rectangle border;
 
     private final int[][] fullGrid;
     private final int columns = 20;
@@ -23,7 +20,7 @@ public class Board {
     /**
      * Class for handling individual Tetris shapes.
      */
-    public class TetrisShape{
+    public static class TetrisShape{
         private int x = 0;
         private int y = 0;
         private int[][] squareLocations;
@@ -57,11 +54,9 @@ public class Board {
          * @return returns true if set and false if not.
          */
         private boolean setX(int x){
-            if(x >= -2 && x<columns){
-                this.x = x;
-                return true;
-            }
-            return false;
+            this.x = x;
+            return true;
+
         }
 
         /**
@@ -70,11 +65,8 @@ public class Board {
          * @return Returns true if that value was set and false if it was not.
          */
         private boolean setY(int y){
-            if(y>=-2 && y<rows){
-                this.y = y;
-                return true;
-            }
-            return false;
+            this.y = y;
+            return true;
         }
 
         /**
@@ -93,6 +85,10 @@ public class Board {
             return squareLocations;
         }
 
+        /**
+         * Sets the shape array.
+         * @param newArray the array representation of the block shape.
+         */
         private void setSquareLocations(int [][] newArray){
             this.squareLocations = newArray;
         }
@@ -127,11 +123,10 @@ public class Board {
      * @param gameLayout the borderPane to hold the game.
      */
     public Board(BorderPane gameLayout){
-        this.gameLayout = gameLayout;
         this.gameGrid = new GridPane();
-        this.gameStack = new StackPane();
+        StackPane gameStack = new StackPane();
         gameLayout.setCenter(gameStack);
-        this.border = new Rectangle();
+        Rectangle border = new Rectangle();
         border.setHeight(800);
         border.setWidth(500);
         border.setFill(Color.DARKGRAY);
@@ -146,7 +141,6 @@ public class Board {
         gameStack.setMaxSize(500,800);
         gameGrid.setMinSize(500,800);
         gameGrid.setMaxSize(500,800);
-
         fullGrid = new int[columns][rows];
         for(int c = 0; c < columns; c++ ){
             for(int r = 0; r<rows; r++){
@@ -165,7 +159,7 @@ public class Board {
      * @param shape Shape to add.
      * @return true if added, false if not.
      */
-    private synchronized boolean addShape(int startX, int startY, TetrisShape shape){
+    private boolean addShape(int startX, int startY, TetrisShape shape){
         boolean couldAdd = false;
             if (shape.setX(startX) && shape.setY(startY) && canAdd(startX, startY, shape)) {
                 couldAdd = true;
@@ -179,11 +173,8 @@ public class Board {
                             gameGrid.getChildren().removeIf(new Predicate<Node>() {
                                 @Override
                                 public boolean test(Node node) {
-                                    if(GridPane.getColumnIndex(node) == realC && GridPane.getRowIndex(node) == realR){
-                                        return true;
-                                    }
-
-                                    return false;
+                                    return GridPane.getColumnIndex(node) == realC &&
+                                            GridPane.getRowIndex(node) == realR;
                                 }
                             });
                             Rectangle newRect = new Rectangle(25, 20);
@@ -200,7 +191,7 @@ public class Board {
      * Removes a shape from the board.
      * @param shape the shape to remove.
      */
-    private synchronized void removeShape(TetrisShape shape){
+    private void removeShape(TetrisShape shape){
         int shapeSize = shape.getShapeSize();
         int [][] shapeArray = shape.getSquareLocations();
         for(int c = 0; c<shapeSize; c++){
@@ -212,11 +203,7 @@ public class Board {
                     gameGrid.getChildren().removeIf(new Predicate<Node>() {
                         @Override
                         public boolean test(Node node) {
-                            if (GridPane.getColumnIndex(node) == realC && GridPane.getRowIndex(node) == realR) {
-                                return true;
-                            }
-
-                            return false;
+                            return GridPane.getColumnIndex(node) == realC && GridPane.getRowIndex(node) == realR;
                         }
                     });
                     Rectangle newRect = new Rectangle(25, 20);
@@ -235,7 +222,7 @@ public class Board {
      * @param shape shape to add.
      * @return returns true if added and false if not.
      */
-    private synchronized boolean canAdd(int x, int y, TetrisShape shape){
+    private boolean canAdd(int x, int y, TetrisShape shape){
         int arraySize = shape.getShapeSize();
         int [][] shapeArray = shape.getSquareLocations();
         for(int c = 0; c<arraySize; c++){
@@ -261,7 +248,7 @@ public class Board {
      * @param yDir offset from original y.
      * @param shape shape to move.
      */
-    public synchronized void moveShape(int xDir, int yDir, TetrisShape shape){
+    public void moveShape(int xDir, int yDir, TetrisShape shape){
         int newX = shape.x + xDir;
         int newY = shape.y + yDir;
         removeShape(shape);
@@ -336,10 +323,10 @@ public class Board {
 
     /**
      * Deletes a row from the board. Assumes valid row index is given.
+     *
      * @param row row to delete.
-     * @return always returns true.
      */
-    public boolean deleteRow(int row){
+    public void deleteRow(int row){
         for(int r = row; r>0; r--){
             for(int c = 0; c<columns; c++){
                 fullGrid[c][r] = fullGrid[c][r-1];
@@ -373,7 +360,6 @@ public class Board {
             fullGrid[c][0] = 0;
 
         }
-        return true;
     }
 
     /**

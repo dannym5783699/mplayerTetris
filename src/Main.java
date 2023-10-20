@@ -1,5 +1,9 @@
 import javafx.application.Application;
+import javafx.event.EventHandler;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 
@@ -8,6 +12,7 @@ import javafx.stage.Stage;
  * @author Danny Metcalfe
  */
 public class Main extends Application {
+    private Game game;
 
     /**
      * Starts the application.
@@ -27,7 +32,19 @@ public class Main extends Application {
         primaryStage.setHeight(screenSize);
         primaryStage.setWidth(screenSize);
         primaryStage.show();
-        Game game = new Game(gameLayout, gameScene);
+        game = new Game(gameLayout, gameScene);
+        Button newGame = new Button("New game");
+        newGame.setAlignment(Pos.CENTER);
+        newGame.setTranslateX(50);
+        newGame.setTranslateY(500);
+        gameLayout.setLeft(newGame);
+        newGame.setFocusTraversable(false);
+        newGame.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                 game = new Game(gameLayout, gameScene);
+            }
+        });
 
 
 
