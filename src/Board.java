@@ -8,6 +8,7 @@ import java.util.function.Predicate;
 
 /**
  * This class handles most of the board related functions such as display. Also moving shapes.
+ *
  * @author Danny Metcalfe
  */
 public class Board {

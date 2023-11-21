@@ -14,6 +14,7 @@ import java.util.Random;
 
 /**
  * This class works to handle running the game and using the board to do this.
+ *
  * @author Danny Metcalfe
  */
 public class Game {

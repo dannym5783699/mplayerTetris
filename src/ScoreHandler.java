@@ -1,5 +1,6 @@
 /**
  * This class handles score calculations and holds the values.
+ *
  * @author Danny Metcalfe
  */
 public class ScoreHandler {
