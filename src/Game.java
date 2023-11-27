@@ -42,13 +42,13 @@ public class Game {
     public Game(BorderPane gamePane, Scene gameScene){
         tetrisBoard = new Board(gamePane);
         //Adding shapes. Can add any shapes that fit in the board.
-        availShapes.add(0, new int [][]{{0,1,0},{1,1,0},{0,1,0}});
-        availShapes.add(new int[][]{{0,0,0},{1,1,1},{0,0,1}});
-        availShapes.add(new int[][]{{1,0,0,0}, {1,0,0,0}, {1,0,0,0}, {1,0,0,0}});
+        availShapes.add(0, new int [][]{{-1,1,-1},{1,1,-1},{-1,1,-1}});
+        availShapes.add(new int[][]{{-1,-1,-1},{1,1,1},{-1,-1,1}});
+        availShapes.add(new int[][]{{1,-1,-1,-1}, {1,-1,-1,-1}, {1,-1,-1,-1}, {1,-1,-1,-1}});
         availShapes.add(new int[][]{{1,1},{1,1}});
-        availShapes.add(new int[][]{{0,1,0},{1,1,0},{1,0,0}});
-        availShapes.add(new int[][]{{0,1,0},{0,1,1},{0,0,1}});
-        availShapes.add(new int[][]{{1,0,0},{1,0,0},{1,0,0}});
+        availShapes.add(new int[][]{{-1,1,-1},{1,1,-1},{1,-1,-1}});
+        availShapes.add(new int[][]{{-1,1,-1},{-1,1,1},{-1,-1,1}});
+        availShapes.add(new int[][]{{1,-1,-1},{1,-1,-1},{1,-1,-1}});
         //availShapes.add(new int[][]{{1,0,0,0}, {1,1,1,1}, {0, 0, 0,1},{0,0,0,0}});
 
         //Adding colors. Can add any colors.
@@ -82,6 +82,7 @@ public class Game {
                 //Runnning the game.
                 if ((currentShape == null || !currentShape.isCanMove()) && !hasEnd) {
                     if (currentShape != null) {
+                        //System.out.println(tetrisBoard);
                         int shapeSize = currentShape.getShapeSize();
                         int deletes = 0;
                         for (int i = shapeSize - 1; i >= 0; i--) {
@@ -107,7 +108,7 @@ public class Game {
                     int randCol = random.nextInt(0, numColors);
                     int size = availShapes.get(randNum).length;
                     int[][] shape = availShapes.get(randNum);
-                    Board.TetrisShape newShape = new Board.TetrisShape(size, availColors.get(randCol), shape);
+                    Board.TetrisShape newShape = new Board.TetrisShape(size, availColors.get(randCol), shape, randCol);
                     hasEnd = !tetrisBoard.addTetrisPiece(newShape);
                     if (hasEnd) {
                         currentShape = null;
