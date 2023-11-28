@@ -431,8 +431,8 @@ public class Board {
      */
     public int[][] getFullGrid(){
         int[][] copy = new int[columns][rows];
-        for(int c = 0; c< columns; c++){
-            for(int r = 0; r<rows; r++){
+        for(int r = 0; r< rows; r++){
+            for(int c = 0; c<columns; c++){
                 copy[c][r] = fullGrid[c][r];
             }
         }
