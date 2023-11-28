@@ -430,10 +430,10 @@ public class Board {
      * @return Returns an integer array representing the board.
      */
     public int[][] getFullGrid(){
-        int[][] copy = new int[columns][rows];
+        int[][] copy = new int[rows][columns];
         for(int r = 0; r< rows; r++){
             for(int c = 0; c<columns; c++){
-                copy[c][r] = fullGrid[c][r];
+                copy[r][c] = fullGrid[c][r];
             }
         }
         return copy;
