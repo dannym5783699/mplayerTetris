@@ -7,6 +7,8 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 
+import java.io.IOException;
+
 /**
  * This class starts the application and sets up the window.
  * @author Danny Metcalfe
@@ -19,12 +21,16 @@ public class Main extends Application {
      * @param primaryStage the primary stage for this application, onto which
      * the application scene can be set.
      * Applications may create other stages, if needed, but they will not be
-     *
      * primary stages.
      * @throws Exception
      */
     @Override
-    public void start(Stage primaryStage) throws Exception {
+    public void start(Stage primaryStage) throws IOException {
+        // Initialize and start the MultiplayerServer on a separate thread.
+        MultiplayerServer multiplayerServer = new MultiplayerServer();
+        Thread serverThread = new Thread(multiplayerServer);
+        serverThread.start();
+
         primaryStage.setTitle("Tetris");
         BorderPane gameLayout = new BorderPane();
         Scene gameScene = new Scene(gameLayout);
@@ -32,7 +38,8 @@ public class Main extends Application {
         double screenSize = 1000;
         primaryStage.setHeight(screenSize);
         primaryStage.setWidth(screenSize);
-        primaryStage.show();
+
+        // Set up the game and UI components.
         game = new Game(gameLayout, gameScene);
         Button newGame = new Button("New game");
         newGame.setAlignment(Pos.CENTER);
@@ -43,12 +50,18 @@ public class Main extends Application {
         newGame.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
-                 game = new Game(gameLayout, gameScene);
+                game = new Game(gameLayout, gameScene);
             }
         });
 
+        // Show the primary stage.
+        primaryStage.show();
 
-
-
+        // Handle application close request.
+        primaryStage.setOnCloseRequest(event -> {
+            serverThread.interrupt(); // Interrupt the server thread to stop it.
+        });
     }
+
+
 }
