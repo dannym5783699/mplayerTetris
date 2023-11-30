@@ -16,7 +16,7 @@ public class Opponent {
     private GridPane boardGrid;
     private HBox playerHBox;
 
-    String strMatrix = "1-0-1-2-3-4-5-1-0-1-2-3-4-5";
+    String strMatrix = "1-0-1-2-3-4-5-1-0-1-2-3-4-111111";
 
     public Opponent() {
         this.playerName = "Default";
@@ -32,14 +32,7 @@ public class Opponent {
     }
 
     public void setBoardMatrix(String stringMatrix) {
-        String[] rows = stringMatrix.split("-");
-        for (int i = 0; i < rows.length; i++) {
-            String[] values = rows[i].split("-");
-            for (int j = 0; j < values.length; j++) {
-                boardMatrix[i][j] = Integer.parseInt(values[j]);
-            }
-        }
-        setUIElement();
+
     }
 
     private void setUIElement() {
@@ -50,7 +43,7 @@ public class Opponent {
                 pane.setPrefSize(5, 5);
                 Color color;
                 switch (boardMatrix[i][j]) {
-                    case -1:
+                    case 6:
                         color = Color.WHITE;
                         break;
                     case 0:
