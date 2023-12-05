@@ -5,24 +5,14 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.HBox; // Import HBox for horizontal box layout
+import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
 
-/**
- * This class starts the application and sets up the window.
- * @author Danny Metcalfe
- */
 public class Main extends Application {
     private Game game;
 
-    /**
-     * Starts the application.
-     * @param primaryStage the primary stage for this application, onto which
-     * the application scene can be set.
-     * Applications may create other stages, if needed, but they will not be
-     *
-     * primary stages.
-     * @throws Exception
-     */
     @Override
     public void start(Stage primaryStage) throws Exception {
         primaryStage.setTitle("Tetris");
@@ -34,21 +24,23 @@ public class Main extends Application {
         primaryStage.setWidth(screenSize);
         primaryStage.show();
         game = new Game(gameLayout, gameScene);
+
         Button newGame = new Button("New game");
-        newGame.setAlignment(Pos.CENTER);
-        newGame.setTranslateX(50);
-        newGame.setTranslateY(500);
-        gameLayout.setLeft(newGame);
+        newGame.setFont(Font.font("Arial", FontWeight.BOLD, 11)); // Set font to Arial, Bold, Size 16
+
+        // Create an HBox for placing the button at the top left
+        HBox topBox = new HBox();
+        topBox.setAlignment(Pos.TOP_LEFT);
+        topBox.getChildren().add(newGame);
+
+        gameLayout.setTop(topBox); // Add the HBox to the top of the BorderPane
+
         newGame.setFocusTraversable(false);
         newGame.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
-                 game = new Game(gameLayout, gameScene);
+                game = new Game(gameLayout, gameScene);
             }
         });
-
-
-
-
     }
 }

@@ -130,7 +130,7 @@ public class Board {
         Rectangle border = new Rectangle();
         border.setHeight(800);
         border.setWidth(500);
-        border.setFill(Color.DARKGRAY);
+        border.setFill(Color.BLACK);
         border.setStroke(Color.BLACK);
         gameStack.getChildren().add(border);
         gameStack.getChildren().add(gameGrid);
