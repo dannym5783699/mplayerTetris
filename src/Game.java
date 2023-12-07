@@ -36,20 +36,20 @@ public class Game {
 
     /**
      * Creates a game and runs it.
-     * @param gamePane The BorderPane for the game to create a board.
+     *
+     * @param gamePane  The BorderPane for the game to create a board.
      * @param gameScene the scene of the game to set the key events.
      */
-    public Game(BorderPane gamePane, Scene gameScene){
-
+    public Game(BorderPane gamePane, Scene gameScene) {
         tetrisBoard = new Board(gamePane);
         //Adding shapes. Can add any shapes that fit in the board.
-        availShapes.add(0, new int [][]{{-1,1,-1},{1,1,-1},{-1,1,-1}});
-        availShapes.add(new int[][]{{-1,-1,-1},{1,1,1},{-1,-1,1}});
-        availShapes.add(new int[][]{{1,-1,-1,-1}, {1,-1,-1,-1}, {1,-1,-1,-1}, {1,-1,-1,-1}});
-        availShapes.add(new int[][]{{1,1},{1,1}});
-        availShapes.add(new int[][]{{-1,1,-1},{1,1,-1},{1,-1,-1}});
-        availShapes.add(new int[][]{{-1,1,-1},{-1,1,1},{-1,-1,1}});
-        availShapes.add(new int[][]{{1,-1,-1},{1,-1,-1},{1,-1,-1}});
+        availShapes.add(0, new int[][]{{-1, 1, -1}, {1, 1, -1}, {-1, 1, -1}});
+        availShapes.add(new int[][]{{-1, -1, -1}, {1, 1, 1}, {-1, -1, 1}});
+        availShapes.add(new int[][]{{1, -1, -1, -1}, {1, -1, -1, -1}, {1, -1, -1, -1}, {1, -1, -1, -1}});
+        availShapes.add(new int[][]{{1, 1}, {1, 1}});
+        availShapes.add(new int[][]{{-1, 1, -1}, {1, 1, -1}, {1, -1, -1}});
+        availShapes.add(new int[][]{{-1, 1, -1}, {-1, 1, 1}, {-1, -1, 1}});
+        availShapes.add(new int[][]{{1, -1, -1}, {1, -1, -1}, {1, -1, -1}});
         //availShapes.add(new int[][]{{1,0,0,0}, {1,1,1,1}, {0, 0, 0,1},{0,0,0,0}});
 
         //Adding colors. Can add any colors.
@@ -126,24 +126,20 @@ public class Game {
         gameScene.setOnKeyPressed(new EventHandler<KeyEvent>() {
             @Override
             public void handle(KeyEvent event) {
-                if(currentShape != null && !hasEnd) {
+                if (currentShape != null && !hasEnd) {
                     if (event.getCode().equals(KeyCode.LEFT)) {
                         tetrisBoard.moveShape(-1, 0, currentShape);
                     } else if (event.getCode().equals(KeyCode.DOWN)) {
                         tetrisBoard.moveShape(0, 1, currentShape);
                     } else if (event.getCode().equals(KeyCode.RIGHT)) {
                         tetrisBoard.moveShape(1, 0, currentShape);
-                    } else if (event.getCode().equals(KeyCode.D)) {
+                    } else if (event.getCode().equals(KeyCode.UP)) {
+                        // Rotate the shape when the UP arrow is pressed
                         tetrisBoard.rotateShape(1, currentShape);
-                    } else if (event.getCode().equals(KeyCode.A)) {
-                        tetrisBoard.rotateShape(-1, currentShape);
                     }
                 }
             }
         });
         timer.start();
     }
-
-
-
 }

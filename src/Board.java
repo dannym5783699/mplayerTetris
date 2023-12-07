@@ -147,8 +147,12 @@ public class Board {
         Rectangle border = new Rectangle();
         border.setHeight(800);
         border.setWidth(500);
-        border.setFill(Color.DARKGRAY);
-        border.setStroke(Color.BLACK);
+        border.setFill(Color.BLACK);
+
+        // Set the stroke (border) color and width
+        border.setStroke(Color.GREY); // You can change the color if needed
+        border.setStrokeWidth(5); // Set the border width as per your preference
+
         gameStack.getChildren().add(border);
         gameStack.getChildren().add(gameGrid);
         gameGrid.setPrefWidth(500);
