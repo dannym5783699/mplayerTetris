@@ -131,7 +131,11 @@ public class Board {
         border.setHeight(800);
         border.setWidth(500);
         border.setFill(Color.BLACK);
-        border.setStroke(Color.BLACK);
+
+        // Set the stroke (border) color and width
+        border.setStroke(Color.GREY); // Change the color for border
+        border.setStrokeWidth(5); // Adjust the border width
+
         gameStack.getChildren().add(border);
         gameStack.getChildren().add(gameGrid);
         gameGrid.setPrefWidth(500);
