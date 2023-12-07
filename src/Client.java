@@ -28,7 +28,7 @@ public class Client {
                 Scanner scanner = new Scanner(System.in);
                 while (socket.isConnected()) {
                     String messageToSend = scanner.nextLine();
-                    bufferedwriter.write(username + ": " + messageToSend);
+                    bufferedwriter.write(": " + messageToSend);
                     bufferedwriter.newLine();
                     bufferedwriter.flush();
                 }
@@ -76,7 +76,7 @@ public class Client {
             Scanner scanner = new Scanner(System.in);
             System.out.println("Enter your username: ");
             String username = scanner.nextLine();
-            Socket socket = new Socket("LocalHost", 1234);
+            Socket socket = new Socket("192.168.108.56", 1234);
             Client client = new Client(socket, username);
             client.listenForMessage();
             client.sendMessage();
