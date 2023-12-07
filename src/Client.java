@@ -78,11 +78,10 @@ public class Client {
             System.out.println("Enter your username: ");
             String username = scanner.nextLine();
             //Socket socket = new Socket("LocalHost", 1234);
-            Socket socket = new Socket("Laptop5783699", 1234);
+            Socket socket = new Socket("192.168.108.56", 1234);
             Client client = new Client(socket, username);
             client.listenForMessage();
             client.sendMessage();
-
        }
 
 }
