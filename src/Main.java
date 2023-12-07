@@ -34,7 +34,7 @@ public class Main extends Application {
         Scene gameScene = new Scene(gameLayout);
         Button gameButton = new Button("New game");
 
-        //Setting up oppenent boxes for presentation
+        //Setting up opponent boxes for presentation
         HBox topBox = new HBox();
         VBox opponent1and3 = new VBox();
         VBox opponent2and4 = new VBox();
@@ -55,7 +55,8 @@ public class Main extends Application {
         // Setting up the Game
         game = new Game(gameLayout, gameScene);
 
-        //topBox.getChildren().add(newGame);
+        // UNMARK THIS TO ADD THE BUTTON TO THE GAME
+        // topBox.getChildren().add(newGame);
         opponent1and3.setSpacing(10);
         opponent2and4.setSpacing(10);
         opponent1and3.getChildren().add(opponent1.getPlayerHBox());
