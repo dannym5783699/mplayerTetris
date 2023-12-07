@@ -32,7 +32,7 @@ public class Main extends Application {
         // Establishing Variables
         BorderPane gameLayout = new BorderPane();
         Scene gameScene = new Scene(gameLayout);
-        Button newGame = new Button("New game");
+        Button gameButton = new Button("New game");
 
         //Setting up oppenent boxes for presentation
         HBox topBox = new HBox();
@@ -54,7 +54,6 @@ public class Main extends Application {
 
         // Setting up the Game
         game = new Game(gameLayout, gameScene);
-        newGame.setFont(Font.font("Arial", FontWeight.BOLD, 11)); // Set font to Arial, Bold, Size 16
 
         //topBox.getChildren().add(newGame);
         opponent1and3.setSpacing(10);
@@ -68,12 +67,12 @@ public class Main extends Application {
         topBox.getChildren().add(opponent2and4);
         topBox.setAlignment(Pos.TOP_LEFT);
 
-        gameLayout.setLeft(topBox); // Add the HBox to the top of the BorderPane
-
-        newGame.setFocusTraversable(false);
+        gameLayout.setLeft(topBox);
 
         // Setting up the new Game button
-        newGame.setOnMouseClicked(new EventHandler<MouseEvent>() {
+        gameButton.setFont(Font.font("Arial", FontWeight.BOLD, 11));
+        gameButton.setFocusTraversable(false);
+        gameButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
                 game = new Game(gameLayout, gameScene);
