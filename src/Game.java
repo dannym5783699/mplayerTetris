@@ -40,6 +40,7 @@ public class Game {
      * @param gameScene the scene of the game to set the key events.
      */
     public Game(BorderPane gamePane, Scene gameScene){
+
         tetrisBoard = new Board(gamePane);
         //Adding shapes. Can add any shapes that fit in the board.
         availShapes.add(0, new int [][]{{-1,1,-1},{1,1,-1},{-1,1,-1}});
