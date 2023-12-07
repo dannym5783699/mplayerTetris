@@ -33,19 +33,24 @@ public class Opponent {
 
     public void setBoardMatrix(String stringMatrix) {
         int k = 0;
-        if (stringMatrix.charAt(k) != '-' && stringMatrix.charAt(k) != '1') {
             for (int i = 0; i < boardMatrix.length; i++) {
                 for (int j = 0; j < boardMatrix[i].length; j++) {
                     if (k < stringMatrix.length()) {
-                        boardMatrix[i][j] = Character.getNumericValue(stringMatrix.charAt(k));
-                        k++;
+                        if(stringMatrix.charAt(k) == '-'){
+                            boardMatrix[i][j] = -1;
+                            k+=2;
+                        }
+                        else {
+                            boardMatrix[i][j] = Character.getNumericValue(stringMatrix.charAt(k));
+                            k++;
+                        }
                     }
                 }
             }
-        }
+
     }
 
-    private void setUIElement() {
+    public void setUIElement() {
         boardGrid.getChildren().clear();
         for (int i = 0; i < boardMatrix.length; i++) {
             for (int j = 0; j < boardMatrix[i].length; j++) {
@@ -86,7 +91,5 @@ public class Opponent {
     public HBox getPlayerHBox() {
         return playerHBox;
     }
-
-
 
 }
