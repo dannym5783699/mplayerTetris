@@ -9,7 +9,7 @@ public class Client {
     private BufferedWriter bufferedwriter;
     private String username;
 
-    //h
+
     public Client(Socket socket, String username) {
         try {
             this.socket = socket;

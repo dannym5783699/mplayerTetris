@@ -38,6 +38,7 @@ public class Server {
             Server server = new Server(serverSocket);
             server.startServer();
         }catch (IOException e) {
+
         }
     }
 }
