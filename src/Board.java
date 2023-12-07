@@ -5,6 +5,7 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 
+import java.util.Arrays;
 import java.util.function.Predicate;
 
 /**
@@ -34,9 +35,8 @@ public class Board {
 
         /**
          * Creates a new shape.
-         *
-         * @param size    size of the shape of the longest part. ex 1 by 4 rectangle size should be 4.
-         * @param color   color of the shape.
+         * @param size size of the shape of the longest part. ex 1 by 4 rectangle size should be 4.
+         * @param color color of the shape.
          * @param squares a grid that represents the shape. Where numbers are positions of the squares.
          */
         public TetrisShape(int size, Color color, int[][] squares, int index){
@@ -145,8 +145,8 @@ public class Board {
         border.setFill(Color.BLACK);
 
         // Set the stroke (border) color and width
-        border.setStroke(Color.GREY); // Change the color for border
-        border.setStrokeWidth(5); // Adjust the border width
+        border.setStroke(Color.GREY); // You can change the color if needed
+        border.setStrokeWidth(5); // Set the border width as per your preference
 
         gameStack.getChildren().add(border);
         gameStack.getChildren().add(gameGrid);
@@ -178,29 +178,29 @@ public class Board {
      */
     private boolean addShape(int startX, int startY, TetrisShape shape){
         boolean couldAdd = false;
-            if (shape.setX(startX) && shape.setY(startY) && canAdd(startX, startY, shape)) {
-                couldAdd = true;
-                for (int c = 0; c < shape.getShapeSize(); c++) {
-                    for (int r = 0; r < shape.getShapeSize(); r++) {
-                        int realC = startX +c;
-                        int realR = startY +r;
-                        int[][] shapeArray = shape.getSquareLocations();
-                        if (shapeArray[c][r] != -1 && realC >= 0 && realC <columns && realR >= 0 && realR < rows){
-                            fullGrid[realC][realR] = shapeArray[c][r];
-                            gameGrid.getChildren().removeIf(new Predicate<Node>() {
-                                @Override
-                                public boolean test(Node node) {
-                                    return GridPane.getColumnIndex(node) == realC &&
-                                            GridPane.getRowIndex(node) == realR;
-                                }
-                            });
-                            Rectangle newRect = new Rectangle(25, 20);
-                            newRect.setFill(shape.color);
-                            gameGrid.add(newRect, realC, realR);
-                        }
+        if (shape.setX(startX) && shape.setY(startY) && canAdd(startX, startY, shape)) {
+            couldAdd = true;
+            for (int c = 0; c < shape.getShapeSize(); c++) {
+                for (int r = 0; r < shape.getShapeSize(); r++) {
+                    int realC = startX +c;
+                    int realR = startY +r;
+                    int[][] shapeArray = shape.getSquareLocations();
+                    if (shapeArray[c][r] != -1 && realC >= 0 && realC <columns && realR >= 0 && realR < rows){
+                        fullGrid[realC][realR] = shapeArray[c][r];
+                        gameGrid.getChildren().removeIf(new Predicate<Node>() {
+                            @Override
+                            public boolean test(Node node) {
+                                return GridPane.getColumnIndex(node) == realC &&
+                                        GridPane.getRowIndex(node) == realR;
+                            }
+                        });
+                        Rectangle newRect = new Rectangle(25, 20);
+                        newRect.setFill(shape.color);
+                        gameGrid.add(newRect, realC, realR);
                     }
                 }
             }
+        }
         return couldAdd;
     }
 
