@@ -6,6 +6,7 @@ import javafx.scene.control.Button;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox; // Import HBox for horizontal box layout
+import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
@@ -31,9 +32,27 @@ public class Main extends Application {
         // Create an HBox for placing the button at the top left
         HBox topBox = new HBox();
         topBox.setAlignment(Pos.TOP_LEFT);
-        topBox.getChildren().add(newGame);
 
-        gameLayout.setTop(topBox); // Add the HBox to the top of the BorderPane
+        //Setting up oppenent boxes for presentation
+        VBox opponent1and3 = new VBox();
+        VBox opponent2and4 = new VBox();
+        Opponent opponent1 = new Opponent();
+        Opponent opponent2 = new Opponent();
+        Opponent opponent3 = new Opponent();
+        Opponent opponent4 = new Opponent();
+
+        //topBox.getChildren().add(newGame);
+        opponent1and3.setSpacing(10);
+        opponent2and4.setSpacing(10);
+        opponent1and3.getChildren().add(opponent1.getPlayerHBox());
+        opponent2and4.getChildren().add(opponent2.getPlayerHBox());
+        opponent1and3.getChildren().add(opponent3.getPlayerHBox());
+        opponent2and4.getChildren().add(opponent4.getPlayerHBox());
+
+        topBox.getChildren().add(opponent1and3);
+        topBox.getChildren().add(opponent2and4);
+
+        gameLayout.setLeft(topBox); // Add the HBox to the top of the BorderPane
 
         newGame.setFocusTraversable(false);
         newGame.setOnMouseClicked(new EventHandler<MouseEvent>() {
