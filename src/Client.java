@@ -72,15 +72,24 @@ public class Client {
             }
         }
 
-        public static void main(String[] args) throws IOException{
-            Scanner scanner = new Scanner(System.in);
-            System.out.println("Enter your username: ");
-            String username = scanner.nextLine();
-            Socket socket = new Socket("192.168.108.56", 1234);
-            Client client = new Client(socket, username);
-            client.listenForMessage();
-            client.sendMessage();
+    public static void main(String[] args) throws IOException {
+        Scanner scanner = new Scanner(System.in);
 
+        System.out.println("Enter your username: ");
+        String username = scanner.nextLine();
+
+        System.out.println("Enter server IP address: ");
+        String serverAddress = scanner.nextLine();
+
+        System.out.println("Enter server port number: ");
+        int port = scanner.nextInt();
+        scanner.nextLine(); // Consume the newline left-over
+
+        Socket socket = new Socket(serverAddress, port);
+        Client client = new Client(socket, username);
+        client.listenForMessage();
+        client.sendMessage();
     }
 
-    }
+
+}
