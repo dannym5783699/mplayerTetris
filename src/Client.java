@@ -17,6 +17,7 @@ public class Client {
         } catch (IOException e) {
             closeEverything(socket, bufferedreader, bufferedwriter);
         }
+    }
 
         public void sendMessage() {
             try {
@@ -54,7 +55,7 @@ public class Client {
             }).start();
         }
 
-        }
+
         public void closeEverything(Socket socket, BufferedReader bufferedreader, BufferedWriter bufferedwriter) {
             try {
                 if (socket != null) {
@@ -71,11 +72,11 @@ public class Client {
             }
         }
 
-        public void main(String[] args) throws IOException{
+        public static void main(String[] args) throws IOException{
             Scanner scanner = new Scanner(System.in);
             System.out.println("Enter your username: ");
             String username = scanner.nextLine();
-            Socket socket = new Socket("localhost", 1234);
+            Socket socket = new Socket("LocalHost", 1234);
             Client client = new Client(socket, username);
             client.listenForMessage();
             client.sendMessage();
