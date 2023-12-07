@@ -4,6 +4,8 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
+
+import java.util.Arrays;
 import java.util.function.Predicate;
 
 /**
@@ -29,20 +31,26 @@ public class Board {
         private final Color color;
         private boolean canMove = true;
 
+        private final int colIndex;
+
         /**
          * Creates a new shape.
          * @param size size of the shape of the longest part. ex 1 by 4 rectangle size should be 4.
          * @param color color of the shape.
          * @param squares a grid that represents the shape. Where numbers are positions of the squares.
          */
-        public TetrisShape(int size, Color color, int[][] squares){
+        public TetrisShape(int size, Color color, int[][] squares, int index){
+            colIndex = index;
             shapeSize = size;
             this.color = color;
             if(size > 0 && size == squares.length && size == squares[0].length){
                 squareLocations = new int[size][size];
                 for(int c = 0; c<size; c++){
                     for(int r = 0; r<size; r++){
-                        squareLocations[c][r] = squares[c][r];
+                        if(squares[c][r] != -1){
+                            squareLocations[c][r] = index;
+                        }
+                        else squareLocations[c][r] = -1;
                     }
                 }
 
@@ -68,6 +76,10 @@ public class Board {
         private boolean setY(int y){
             this.y = y;
             return true;
+        }
+
+        private int getColIndex(){
+            return this.colIndex;
         }
 
         /**
@@ -152,7 +164,7 @@ public class Board {
                 Rectangle fill = new Rectangle(25,20);
                 fill.setFill(Color.TRANSPARENT);
                 gameGrid.add(fill, c,r);
-                fullGrid[c][r] = 0;
+                fullGrid[c][r] = -1;
             }
         }
     }
@@ -173,8 +185,8 @@ public class Board {
                         int realC = startX +c;
                         int realR = startY +r;
                         int[][] shapeArray = shape.getSquareLocations();
-                        if (shapeArray[c][r] != 0 && realC >= 0 && realC <columns && realR >= 0 && realR < rows){
-                            fullGrid[realC][realR] = 1;
+                        if (shapeArray[c][r] != -1 && realC >= 0 && realC <columns && realR >= 0 && realR < rows){
+                            fullGrid[realC][realR] = shapeArray[c][r];
                             gameGrid.getChildren().removeIf(new Predicate<Node>() {
                                 @Override
                                 public boolean test(Node node) {
@@ -203,8 +215,8 @@ public class Board {
             for(int r = 0; r<shapeSize; r++){
                 int realC = shape.x + c;
                 int realR = shape.y +r;
-                if (shapeArray[c][r] != 0 && realC >= 0 && realC <columns && realR >= 0 && realR < rows) {
-                    fullGrid[realC][realR] = 0;
+                if (shapeArray[c][r] != -1 && realC >= 0 && realC <columns && realR >= 0 && realR < rows) {
+                    fullGrid[realC][realR] = -1;
                     gameGrid.getChildren().removeIf(new Predicate<Node>() {
                         @Override
                         public boolean test(Node node) {
@@ -234,9 +246,9 @@ public class Board {
             for(int r = 0; r<arraySize; r++){
                 int actualColumn = x + c;
                 int actualRow = y +r;
-                if(shapeArray[c][r] != 0){
+                if(shapeArray[c][r] != -1){
                     if(actualRow >= 0 && actualRow < rows && actualColumn >= 0 && actualColumn<columns){
-                        if(fullGrid[actualColumn][actualRow] != 0) return false;
+                        if(fullGrid[actualColumn][actualRow] != -1) return false;
                     }
                     else{
                         return false;
@@ -290,7 +302,7 @@ public class Board {
                     }
                 }
             }
-            TetrisShape rotated = new TetrisShape(shape.getShapeSize(), shape.color, newArray);
+            TetrisShape rotated = new TetrisShape(shape.getShapeSize(), shape.color, newArray, shape.getColIndex());
             removeShape(shape);
             if (canAdd(shape.x, shape.y, rotated)) {
                 shape.setSquareLocations(newArray);
@@ -362,7 +374,7 @@ public class Board {
             Rectangle rect = new Rectangle(25, 20);
             rect.setFill(Color.TRANSPARENT);
             gameGrid.add(rect, c, 0);
-            fullGrid[c][0] = 0;
+            fullGrid[c][0] = -1;
 
         }
     }
@@ -375,7 +387,7 @@ public class Board {
     public boolean fullRow(int row){
         boolean rowFull = true;
         for(int c = 0; c<columns; c++){
-            if(fullGrid[c][row] == 0){
+            if(fullGrid[c][row] == -1){
                 rowFull = false;
                 break;
             }
@@ -400,7 +412,34 @@ public class Board {
     }
 
 
+    /**
+     * This to string has the grid from top to bottom matching the UI representation.
+     * @return Returns the string of the board.
+     */
+    @Override
+    public String toString() {
+        String fullString = "";
+        for(int r = 0; r<rows; r++){
+            for(int c = 0; c<columns; c++){
+                fullString = fullString + fullGrid[c][r] + " ";
+            }
+            fullString += '\n';
+        }
+        return fullString;
+    }
 
-
-
+    /**
+     * This returns a copy of the grid representation where -1 is empty space.
+     * any other number is the index of the color in the games color array.
+     * @return Returns an integer array representing the board.
+     */
+    public int[][] getFullGrid(){
+        int[][] copy = new int[rows][columns];
+        for(int r = 0; r< rows; r++){
+            for(int c = 0; c<columns; c++){
+                copy[r][c] = fullGrid[c][r];
+            }
+        }
+        return copy;
+    }
 }
