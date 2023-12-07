@@ -5,7 +5,6 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 
-import java.util.Arrays;
 import java.util.function.Predicate;
 
 /**
@@ -35,8 +34,9 @@ public class Board {
 
         /**
          * Creates a new shape.
-         * @param size size of the shape of the longest part. ex 1 by 4 rectangle size should be 4.
-         * @param color color of the shape.
+         *
+         * @param size    size of the shape of the longest part. ex 1 by 4 rectangle size should be 4.
+         * @param color   color of the shape.
          * @param squares a grid that represents the shape. Where numbers are positions of the squares.
          */
         public TetrisShape(int size, Color color, int[][] squares, int index){

@@ -107,7 +107,7 @@ public class Game {
                     int randCol = random.nextInt(0, numColors);
                     int size = availShapes.get(randNum).length;
                     int[][] shape = availShapes.get(randNum);
-                    Board.TetrisShape newShape = new Board.TetrisShape(size, availColors.get(randCol), shape);
+                    Board.TetrisShape newShape = new Board.TetrisShape(size, availColors.get(randCol), shape, randCol);
                     hasEnd = !tetrisBoard.addTetrisPiece(newShape);
                     if (hasEnd) {
                         currentShape = null;
