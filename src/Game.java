@@ -19,20 +19,16 @@ import java.util.Random;
  */
 public class Game {
     private final Board tetrisBoard;
-
     private final ArrayList<int[][]> availShapes = new ArrayList<>();
-
     private final ArrayList<Color> availColors = new ArrayList<>();
-
     private Board.TetrisShape currentShape = null;
+    private final ScoreHandler scoreHandler = new ScoreHandler();
+
 
     //How many kinds of shapes and colors.
     private static final int numShapes = 7;
     private static final int numColors = 6;
-
     private boolean hasEnd = false;
-
-    private final ScoreHandler scoreHandler = new ScoreHandler();
 
     /**
      * Creates a game and runs it.
@@ -42,7 +38,8 @@ public class Game {
      */
     public Game(BorderPane gamePane, Scene gameScene) {
         tetrisBoard = new Board(gamePane);
-        //Adding shapes. Can add any shapes that fit in the board.
+
+        // Adding shapes - can add any shapes that fit in the board
         availShapes.add(0, new int[][]{{-1, 1, -1}, {1, 1, -1}, {-1, 1, -1}});
         availShapes.add(new int[][]{{-1, -1, -1}, {1, 1, 1}, {-1, -1, 1}});
         availShapes.add(new int[][]{{1, -1, -1, -1}, {1, -1, -1, -1}, {1, -1, -1, -1}, {1, -1, -1, -1}});
@@ -50,9 +47,8 @@ public class Game {
         availShapes.add(new int[][]{{-1, 1, -1}, {1, 1, -1}, {1, -1, -1}});
         availShapes.add(new int[][]{{-1, 1, -1}, {-1, 1, 1}, {-1, -1, 1}});
         availShapes.add(new int[][]{{1, -1, -1}, {1, -1, -1}, {1, -1, -1}});
-        //availShapes.add(new int[][]{{1,0,0,0}, {1,1,1,1}, {0, 0, 0,1},{0,0,0,0}});
 
-        //Adding colors. Can add any colors.
+        // Adding colors - can add any colors
         availColors.add(0, Color.RED);
         availColors.add(Color.CADETBLUE);
         availColors.add(Color.PURPLE);
