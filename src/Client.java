@@ -1,3 +1,5 @@
+import javafx.application.Platform;
+
 import java.io.*;
 import java.net.Socket;
 import java.util.Scanner;
@@ -38,6 +40,20 @@ public class Client {
         }
     }
 
+    public void sendBoard(Board board){
+        if(socket.isConnected()){
+            try {
+                bufferedwriter.write(board.toString());
+                bufferedwriter.newLine();
+                bufferedwriter.flush();
+            }catch(IOException e){
+                closeEverything(socket, bufferedreader, bufferedwriter);
+            }
+        }
+    }
+
+
+
     public void listenForMessage() {
         new Thread(new Runnable() {
             @Override
@@ -47,6 +63,24 @@ public class Client {
                     try {
                         msgFromServer = bufferedreader.readLine();
                         System.out.println(msgFromServer);
+
+                    } catch (IOException e) {
+                        closeEverything(socket, bufferedreader, bufferedwriter);
+                    }
+                }
+            }
+        }).start();
+    }
+
+    public void listenForMessage(Board board) {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                String msgFromServer;
+                while (socket.isConnected()) {
+                    try {
+                        msgFromServer = bufferedreader.readLine();
+                        board.setPlayer(msgFromServer);
                     } catch (IOException e) {
                         closeEverything(socket, bufferedreader, bufferedwriter);
                     }

@@ -35,13 +35,13 @@ public class Main extends Application {
         Button gameButton = new Button("New game");
 
         //Setting up opponent boxes for presentation
-        HBox topBox = new HBox();
-        VBox opponent1and3 = new VBox();
-        VBox opponent2and4 = new VBox();
-        Opponent opponent1 = new Opponent();
-        Opponent opponent2 = new Opponent();
-        Opponent opponent3 = new Opponent();
-        Opponent opponent4 = new Opponent();
+//        HBox topBox = new HBox();
+//        VBox opponent1and3 = new VBox();
+//        VBox opponent2and4 = new VBox();
+//        Opponent opponent1 = new Opponent();
+//        Opponent opponent2 = new Opponent();
+//        Opponent opponent3 = new Opponent();
+//        Opponent opponent4 = new Opponent();
 
         double screenSize = 1000;
 
@@ -57,18 +57,37 @@ public class Main extends Application {
 
         // UNMARK THIS TO ADD THE BUTTON TO THE GAME
         // topBox.getChildren().add(newGame);
-        opponent1and3.setSpacing(10);
-        opponent2and4.setSpacing(10);
-        opponent1and3.getChildren().add(opponent1.getPlayerHBox());
-        opponent2and4.getChildren().add(opponent2.getPlayerHBox());
-        opponent1and3.getChildren().add(opponent3.getPlayerHBox());
-        opponent2and4.getChildren().add(opponent4.getPlayerHBox());
+//        opponent1and3.setSpacing(10);
+//        opponent2and4.setSpacing(10);
+//        opponent1and3.getChildren().add(opponent1.getPlayerHBox());
+//        opponent2and4.getChildren().add(opponent2.getPlayerHBox());
+//        opponent1and3.getChildren().add(opponent3.getPlayerHBox());
+//        opponent2and4.getChildren().add(opponent4.getPlayerHBox());
 
-        topBox.getChildren().add(opponent1and3);
-        topBox.getChildren().add(opponent2and4);
-        topBox.setAlignment(Pos.TOP_LEFT);
+        //opponent2.setBoardMatrix("-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1
+        // -1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1
+        // -1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1
+        // -1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1
+        // -1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1
+        // -1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1
+        // -1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1
+        // -1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1
+        // -1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1
+        // -1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1
+        // -1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1
+        // -1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1
+        // -1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1
+        // -1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1
+        // -1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1
+        // -1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1
+        // -1-1-1-1-12-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-122111-122");
 
-        gameLayout.setLeft(topBox);
+//        opponent2.setUIElement();
+//        topBox.getChildren().add(opponent1and3);
+//        topBox.getChildren().add(opponent2and4);
+//        topBox.setAlignment(Pos.TOP_LEFT);
+//
+//        gameLayout.setLeft(topBox);
 
         // Setting up the new Game button
         gameButton.setFont(Font.font("Arial", FontWeight.BOLD, 11));

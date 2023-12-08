@@ -8,9 +8,13 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
+
+import java.io.IOException;
+import java.net.Socket;
 import java.time.Duration;
 import java.util.ArrayList;
 import java.util.Random;
+import java.util.Scanner;
 
 /**
  * This class works to handle running the game and using the board to do this.
@@ -41,7 +45,31 @@ public class Game {
      * @param gameScene the scene of the game to set the key events.
      */
     public Game(BorderPane gamePane, Scene gameScene) {
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.println("Enter your username: ");
+        String username = scanner.nextLine();
+
+        System.out.println("Enter server IP address: ");
+        String serverAddress = scanner.nextLine();
+
+        System.out.println("Enter server port number: ");
+        int port = scanner.nextInt();
+        scanner.nextLine(); // Consume the newline left-over
+        Socket socket;
+        try {
+            socket = new Socket(serverAddress, port);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        Client client = new Client(socket, username);
+
+
         tetrisBoard = new Board(gamePane);
+        client.listenForMessage(tetrisBoard);
+
+
+
         //Adding shapes. Can add any shapes that fit in the board.
         availShapes.add(0, new int[][]{{-1, 1, -1}, {1, 1, -1}, {-1, 1, -1}});
         availShapes.add(new int[][]{{-1, -1, -1}, {1, 1, 1}, {-1, -1, 1}});
@@ -118,6 +146,7 @@ public class Game {
                     }
                 } else if (now - last > Duration.ofMillis(1000 - scoreHandler.getMsSubtraction()).toNanos() &&
                         currentShape != null) {
+                    client.sendBoard(tetrisBoard);
                     tetrisBoard.moveShape(0, 1, currentShape);
                     last = now;
                 }
@@ -126,6 +155,7 @@ public class Game {
         gameScene.setOnKeyPressed(new EventHandler<KeyEvent>() {
             @Override
             public void handle(KeyEvent event) {
+                client.sendBoard(tetrisBoard);
                 if (currentShape != null && !hasEnd) {
                     if (event.getCode().equals(KeyCode.LEFT)) {
                         tetrisBoard.moveShape(-1, 0, currentShape);

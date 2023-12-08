@@ -92,4 +92,8 @@ public class Opponent {
         return playerHBox;
     }
 
+    public String getName(){
+        return this.playerName;
+    }
+
 }
