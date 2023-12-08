@@ -1,4 +1,5 @@
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
@@ -94,6 +95,17 @@ public class Opponent {
 
     public String getName(){
         return this.playerName;
+    }
+
+    public void setName(String name){
+        Platform.runLater(new Runnable() {
+            @Override
+            public void run() {
+                playerNameLabel.setText(name);
+            }
+        });
+
+        this.playerName = name;
     }
 
 }

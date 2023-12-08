@@ -43,7 +43,9 @@ public class Client {
     public void sendBoard(Board board){
         if(socket.isConnected()){
             try {
-                bufferedwriter.write(board.toString());
+
+
+                bufferedwriter.write(this.username + " " + board.toString());
                 bufferedwriter.newLine();
                 bufferedwriter.flush();
             }catch(IOException e){
@@ -80,7 +82,10 @@ public class Client {
                 while (socket.isConnected()) {
                     try {
                         msgFromServer = bufferedreader.readLine();
-                        board.setPlayer(msgFromServer);
+                        String[] values = msgFromServer.split(" ");
+                        if(values.length == 2) {
+                            board.setPlayer(values[0], values[1]);
+                        }
                     } catch (IOException e) {
                         closeEverything(socket, bufferedreader, bufferedwriter);
                     }

@@ -5,6 +5,7 @@ import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.function.Predicate;
 
@@ -24,6 +25,8 @@ public class Board {
     private Opponent opponent2 = new Opponent();
     private Opponent opponent3 = new Opponent();
     private Opponent opponent4 = new Opponent();
+
+    private ArrayList<Opponent> opponents = new ArrayList<>();
 
 
 
@@ -174,6 +177,10 @@ public class Board {
         opponent2 = new Opponent();
         opponent3 = new Opponent();
         opponent4 = new Opponent();
+        opponents.add(opponent1);
+        opponents.add(opponent2);
+        opponents.add(opponent3);
+        opponents.add(opponent4);
 
         opponent1and3.setSpacing(10);
         opponent2and4.setSpacing(10);
@@ -473,13 +480,22 @@ public class Board {
         return copy;
     }
 
-    public void setPlayer(String boardString){
-        opponent1.setBoardMatrix(boardString);
-        Platform.runLater(new Runnable() {
-            @Override
-            public void run() {
-                opponent1.setUIElement();
+    public void setPlayer(String user, String boardString){
+        for(int x = 0; x< opponents.size(); x++) {
+            if(opponents.get(x).getName().equals(user) || opponents.get(x).getName().equals("Default")) {
+                opponents.get(x).setBoardMatrix(boardString);
+                if(opponents.get(x).getName().equals("Default")) {
+                    opponents.get(x).setName(user);
+                }
+                int finalX = x;
+                Platform.runLater(new Runnable() {
+                    @Override
+                    public void run() {
+                        opponents.get(finalX).setUIElement();
+                    }
+                });
+                break;
             }
-        });
+        }
     }
 }
