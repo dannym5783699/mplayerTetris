@@ -1,11 +1,11 @@
+import javafx.application.Platform;
+import javafx.geometry.Pos;
 import javafx.scene.Node;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.StackPane;
+import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.function.Predicate;
 
@@ -21,10 +21,15 @@ public class Board {
     private final int columns = 20;
     private final int rows = 40;
 
-    private Opponent player1;
-    private Opponent player2;
-    private Opponent player3;
-    private Opponent player4;
+    private Opponent opponent1 = new Opponent();
+    private Opponent opponent2 = new Opponent();
+    private Opponent opponent3 = new Opponent();
+    private Opponent opponent4 = new Opponent();
+
+    private ArrayList<Opponent> opponents = new ArrayList<>();
+
+
+
     /**
      * Class for handling individual Tetris shapes.
      */
@@ -147,8 +152,12 @@ public class Board {
         Rectangle border = new Rectangle();
         border.setHeight(800);
         border.setWidth(500);
-        border.setFill(Color.DARKGRAY);
-        border.setStroke(Color.BLACK);
+        border.setFill(Color.BLACK);
+
+        // Set the stroke (border) color and width
+        border.setStroke(Color.GREY); // You can change the color if needed
+        border.setStrokeWidth(5); // Set the border width as per your preference
+
         gameStack.getChildren().add(border);
         gameStack.getChildren().add(gameGrid);
         gameGrid.setPrefWidth(500);
@@ -160,6 +169,33 @@ public class Board {
         gameGrid.setMinSize(500,800);
         gameGrid.setMaxSize(500,800);
         fullGrid = new int[columns][rows];
+
+        HBox topBox = new HBox();
+        VBox opponent1and3 = new VBox();
+        VBox opponent2and4 = new VBox();
+        opponent1 = new Opponent();
+        opponent2 = new Opponent();
+        opponent3 = new Opponent();
+        opponent4 = new Opponent();
+        opponents.add(opponent1);
+        opponents.add(opponent2);
+        opponents.add(opponent3);
+        opponents.add(opponent4);
+
+        opponent1and3.setSpacing(10);
+        opponent2and4.setSpacing(10);
+        opponent1and3.getChildren().add(opponent1.getPlayerHBox());
+        opponent2and4.getChildren().add(opponent2.getPlayerHBox());
+        opponent1and3.getChildren().add(opponent3.getPlayerHBox());
+        opponent2and4.getChildren().add(opponent4.getPlayerHBox());
+
+
+        topBox.getChildren().add(opponent1and3);
+        topBox.getChildren().add(opponent2and4);
+        topBox.setAlignment(Pos.TOP_LEFT);
+
+        gameLayout.setLeft(topBox);
+
         for(int c = 0; c < columns; c++ ){
             for(int r = 0; r<rows; r++){
                 Rectangle fill = new Rectangle(25,20);
@@ -168,17 +204,7 @@ public class Board {
                 fullGrid[c][r] = -1;
             }
         }
-        player1 = new Opponent();
-        player2 = new Opponent();
-        player3 = new Opponent();
-        player4 = new Opponent();
-
-        HBox playersBox = new HBox(player1.getPlayerHBox(), player2.getPlayerHBox(), player3.getPlayerHBox(), player4.getPlayerHBox());
-        playersBox.setLayoutX(50);
-        playersBox.setLayoutY(100);
-        gameLayout.setBottom(playersBox); // Set the playersBox to the left region of the BorderPane
     }
-
 
     /**
      * Adds shape to grid, assumes it can fit within the game grid.
@@ -432,17 +458,17 @@ public class Board {
         String fullString = "";
         for(int r = 0; r<rows; r++){
             for(int c = 0; c<columns; c++){
-                fullString = fullString + fullGrid[c][r] + " ";
+                fullString = fullString + fullGrid[c][r];
             }
-            fullString += '\n';
         }
+        fullString+='\n';
         return fullString;
     }
 
     /**
      * This returns a copy of the grid representation where -1 is empty space.
      * any other number is the index of the color in the games color array.
-     * @return Returns an integer array representing the board.
+     * @return Returns a string representing the board.
      */
     public int[][] getFullGrid(){
         int[][] copy = new int[rows][columns];
@@ -452,5 +478,24 @@ public class Board {
             }
         }
         return copy;
+    }
+
+    public void setPlayer(String user, String boardString){
+        for(int x = 0; x< opponents.size(); x++) {
+            if(opponents.get(x).getName().equals(user) || opponents.get(x).getName().equals("Default")) {
+                opponents.get(x).setBoardMatrix(boardString);
+                if(opponents.get(x).getName().equals("Default")) {
+                    opponents.get(x).setName(user);
+                }
+                int finalX = x;
+                Platform.runLater(new Runnable() {
+                    @Override
+                    public void run() {
+                        opponents.get(finalX).setUIElement();
+                    }
+                });
+                break;
+            }
+        }
     }
 }
