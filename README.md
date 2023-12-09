@@ -1,7 +1,7 @@
 TETRIS Game
 
 
-How to Use
+HOW TO USE
 
 
 Movement: Use the arrow keys to move shapes left, right, or down.
@@ -17,7 +17,7 @@ New Game: Click 'New Game' to reset the game and score.
 Game Information: Score, level, and lines cleared are displayed on the right side of the screen.
 
 
-Project Description
+PROJECT DESCRIPTION
 
 This Tetris game implementation offers both classic gameplay and networked multiplayer features. 
 Players can enjoy the traditional Tetris experience with an added twist of competing against others through a networked environment. 
@@ -39,7 +39,7 @@ Level Progression: The game's pace increases with each level, requiring quicker 
 
 
 
-Networking and Server Features
+NETWORKING AND SERVER FEATURES
 
 
 Server-Client Architecture: The game uses a client-server model to manage multiplayer sessions.
@@ -55,7 +55,7 @@ Opponent.java: Manages the display and updating of opponent's game state in mult
 ScoreHandler.java: Keeps track of scores in a networked environment, ensuring accurate and synchronized scorekeeping across clients.
 
 
-Networking Gameplay
+NETWORKING GAMEPLAY
 
 
 Multiplayer Interaction: Players can compete against each other in real-time, with each player's game progress visible to their opponent.
@@ -65,7 +65,7 @@ Synchronized Gameplay: The server ensures that all game states are synchronized 
 Real-Time Updates: Players receive real-time updates of their opponent's game state, adding a competitive edge to the classic Tetris gameplay.
 
 
-Scoring
+SCORING
 
 
 Line Clear Scoring: Scoring 200 points for clearing one line at level one, with points doubling for each additional cleared line in a single turn.
@@ -75,7 +75,7 @@ Level Bonus: Each new level adds 100 points to the score for line clears.
 Speed: The initial fall speed is 980ms per row at level one, decreasing by 20ms with each subsequent level.
 
 
-File Structure
+FILE STRUCTURE
 
 Board.java: Serves as the central class for managing the game board in the Tetris game. 
 It handles most of the board-related functions such as displaying the game grid, moving shapes, and managing the interaction with Tetris shapes.
