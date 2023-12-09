@@ -18,8 +18,10 @@ Game Information: Score, level, and lines cleared are displayed on the right sid
 
 
 Project Description
+
 This Tetris game implementation offers both classic gameplay and networked multiplayer features. 
 Players can enjoy the traditional Tetris experience with an added twist of competing against others through a networked environment. 
+
 
 Key features include:
 
@@ -36,7 +38,10 @@ Scoring System: Earn points by clearing lines, with increasing scores for cleari
 Level Progression: The game's pace increases with each level, requiring quicker decision-making and reflexes.
 
 
+
 Networking and Server Features
+
+
 Server-Client Architecture: The game uses a client-server model to manage multiplayer sessions.
 
 Server.java: Manages connections and game state for multiple clients.
@@ -51,6 +56,8 @@ ScoreHandler.java: Keeps track of scores in a networked environment, ensuring ac
 
 
 Networking Gameplay
+
+
 Multiplayer Interaction: Players can compete against each other in real-time, with each player's game progress visible to their opponent.
 
 Synchronized Gameplay: The server ensures that all game states are synchronized across clients, providing a seamless multiplayer experience.
@@ -59,6 +66,8 @@ Real-Time Updates: Players receive real-time updates of their opponent's game st
 
 
 Scoring
+
+
 Line Clear Scoring: Scoring 200 points for clearing one line at level one, with points doubling for each additional cleared line in a single turn.
 
 Level Bonus: Each new level adds 100 points to the score for line clears.
