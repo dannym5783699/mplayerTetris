@@ -338,6 +338,7 @@ public class Board {
         return canAdd;
     }
 
+
     /**
      * Deletes a row from the board. Assumes valid row index is given.
      *

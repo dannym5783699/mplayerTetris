@@ -64,9 +64,9 @@ public class Game {
 
         VBox scoring = new VBox();
         gamePane.setRight(scoring);
-        scoring.setSpacing(60);
+        scoring.setSpacing(40);
         scoring.setAlignment(Pos.CENTER);
-        scoring.setTranslateX(-70);
+        scoring.setTranslateX(-40);
         Label currentLevel = new Label("Current Level: 1");
         scoring.getChildren().add(currentLevel);
         Label currentScore = new Label("Current Score: 0");
@@ -123,23 +123,29 @@ public class Game {
                 }
             }
         };
+
         gameScene.setOnKeyPressed(new EventHandler<KeyEvent>() {
             @Override
             public void handle(KeyEvent event) {
+                // Check if there is a current shape and the game has not ended
                 if (currentShape != null && !hasEnd) {
                     if (event.getCode().equals(KeyCode.LEFT)) {
+                        // Move the shape left
                         tetrisBoard.moveShape(-1, 0, currentShape);
                     } else if (event.getCode().equals(KeyCode.DOWN)) {
+                        // Move the shape down faster
                         tetrisBoard.moveShape(0, 1, currentShape);
                     } else if (event.getCode().equals(KeyCode.RIGHT)) {
+                        // Move the shape right
                         tetrisBoard.moveShape(1, 0, currentShape);
                     } else if (event.getCode().equals(KeyCode.UP)) {
-                        // Rotate the shape when the UP arrow is pressed
+                        // Rotate the shape
                         tetrisBoard.rotateShape(1, currentShape);
                     }
                 }
             }
         });
+        // Start the game timer to handle game updates
         timer.start();
     }
-}
+    }
