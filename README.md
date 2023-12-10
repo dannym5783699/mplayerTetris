@@ -6,7 +6,7 @@ HOW TO USE
 
 Movement: Use the arrow keys to move shapes left, right, or down.
 
-Rotation: Press A to rotate left and D to rotate right.
+Rotation: Press up arrow key to rotate the shape.
 
 Starting the Game: The game begins immediately upon starting the program. 
 Once starting the game, the start screen displays with option to enter player name, server ip, and port number. 
@@ -55,6 +55,7 @@ Opponent.java: Manages the display and updating of opponent's game state in mult
 ScoreHandler.java: Keeps track of scores in a networked environment, ensuring accurate and synchronized scorekeeping across clients.
 
 
+
 NETWORKING GAMEPLAY
 
 
@@ -65,6 +66,7 @@ Synchronized Gameplay: The server ensures that all game states are synchronized 
 Real-Time Updates: Players receive real-time updates of their opponent's game state, adding a competitive edge to the classic Tetris gameplay.
 
 
+
 SCORING
 
 
@@ -73,6 +75,7 @@ Line Clear Scoring: Scoring 200 points for clearing one line at level one, with 
 Level Bonus: Each new level adds 100 points to the score for line clears.
 
 Speed: The initial fall speed is 980ms per row at level one, decreasing by 20ms with each subsequent level.
+
 
 
 FILE STRUCTURE
