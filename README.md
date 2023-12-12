@@ -67,17 +67,6 @@ Real-Time Updates: Players receive real-time updates of their opponent's game st
 
 
 
-SCORING
-
-
-Line Clear Scoring: Scoring 200 points for clearing one line at level one, with points doubling for each additional cleared line in a single turn.
-
-Level Bonus: Each new level adds 100 points to the score for line clears.
-
-Speed: The initial fall speed is 980ms per row at level one, decreasing by 20ms with each subsequent level.
-
-
-
 FILE STRUCTURE
 
 Board.java: Serves as the central class for managing the game board in the Tetris game.
