@@ -1,6 +1,7 @@
 import javafx.application.Platform;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
+import javafx.scene.control.Label;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
@@ -17,6 +18,8 @@ import java.util.function.Predicate;
 public class Board {
     private final GridPane gameGrid;
 
+    private final BorderPane borderPane;
+
     private final int[][] fullGrid;
     private final int columns = 20;
     private final int rows = 40;
@@ -27,6 +30,23 @@ public class Board {
     private Opponent opponent4 = new Opponent();
 
     private ArrayList<Opponent> opponents = new ArrayList<>();
+
+    private int numPlayers = 1;
+
+    private int ends = 0;
+
+    public int getNumPlayers() {
+        return numPlayers;
+    }
+
+    public int getEnds() {
+        return ends;
+    }
+
+    public void setEnds(int ends){
+        this.ends = ends;
+    }
+
 
 
 
@@ -153,6 +173,7 @@ public class Board {
         border.setHeight(800);
         border.setWidth(500);
         border.setFill(Color.BLACK);
+        this.borderPane = gameLayout;
 
         // Set the stroke (border) color and width
         border.setStroke(Color.GREY); // You can change the color if needed
@@ -480,12 +501,18 @@ public class Board {
         return copy;
     }
 
+    /**
+     * Sets the board of another player.
+     * @param user user to set the board.
+     * @param boardString The board as a string.
+     */
     public void setPlayer(String user, String boardString){
         for(int x = 0; x< opponents.size(); x++) {
             if(opponents.get(x).getName().equals(user) || opponents.get(x).getName().equals("Default")) {
                 opponents.get(x).setBoardMatrix(boardString);
                 if(opponents.get(x).getName().equals("Default")) {
                     opponents.get(x).setName(user);
+                    numPlayers++;
                 }
                 int finalX = x;
                 Platform.runLater(new Runnable() {
@@ -498,4 +525,70 @@ public class Board {
             }
         }
     }
+
+    /**
+     * Sets the score information for a specific player for end game results.
+     * @param user User to set the scoring to.
+     * @param scoreInfo Information of their score of the form "ScorexLevelxClears"
+     */
+    public void setScore(String user, String scoreInfo){
+        for (Opponent value : opponents) {
+            if (value.getName().equals(user)) {
+                String[] info = scoreInfo.split("x");
+                value.setOpScore(Long.parseLong(info[0]));
+                value.setOpLevel(Integer.parseInt(info[1]));
+                value.setOpClears(Integer.parseInt(info[2]));
+                ends++;
+                break;
+            }
+        }
+    }
+
+
+    /**
+     * Displays the end game results after clearing the screen.
+     */
+    public void displayScores(ScoreHandler scoreHandler){
+        borderPane.getChildren().clear();
+        HBox mainBox = new HBox();
+        mainBox.setTranslateX(100);
+        mainBox.setTranslateY(100);
+        mainBox.setSpacing(100);
+        borderPane.setLeft(mainBox);
+        VBox names = new VBox();
+        VBox scores = new VBox();
+        VBox levels = new VBox();
+        VBox lineClears  = new VBox();
+
+        names.setSpacing(40);
+        scores.setSpacing(40);
+        levels.setSpacing(40);
+        lineClears.setSpacing(40);
+
+        mainBox.getChildren().add(names);
+        mainBox.getChildren().add(scores);
+        mainBox.getChildren().add(levels);
+        mainBox.getChildren().add(lineClears);
+        names.getChildren().add(new Label("Names: "));
+        scores.getChildren().add(new Label("Scores: "));
+        levels.getChildren().add(new Label("Levels: "));
+        lineClears.getChildren().add(new Label("Line Clears: "));
+        names.getChildren().add(new Label("You"));
+        scores.getChildren().add(new Label(Long.toString(scoreHandler.getCurrentScore())));
+        levels.getChildren().add(new Label(Integer.toString(scoreHandler.getCurrentLevel())));
+        lineClears.getChildren().add(new Label(Integer.toString(scoreHandler.getLineClears())));
+        for (Opponent opponent : opponents) {
+            if (!opponent.getName().equals("Default")) {
+                names.getChildren().add(new Label(opponent.getName()));
+                scores.getChildren().add(new Label(Long.toString(opponent.getOpScore())));
+                levels.getChildren().add(new Label(Integer.toString(opponent.getOpLevel())));
+                lineClears.getChildren().add(new Label(Integer.toString(opponent.getOpClears())));
+            }
+        }
+
+    }
+
+
+
+
 }
