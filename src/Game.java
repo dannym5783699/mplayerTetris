@@ -36,6 +36,8 @@ public class Game {
 
     private boolean hasEnd = false;
 
+    private boolean sentScore = false;
+
     private final ScoreHandler scoreHandler = new ScoreHandler();
 
     /**
@@ -109,9 +111,8 @@ public class Game {
             @Override
             public void handle(long now) {
                 //Runnning the game.
-                if ((currentShape == null || !currentShape.isCanMove()) && !hasEnd) {
+                if ((currentShape == null || ((!currentShape.isCanMove()) && !hasEnd))) {
                     if (currentShape != null) {
-                        //System.out.println(tetrisBoard);
                         int shapeSize = currentShape.getShapeSize();
                         int deletes = 0;
                         for (int i = shapeSize - 1; i >= 0; i--) {
@@ -141,6 +142,17 @@ public class Game {
                     hasEnd = !tetrisBoard.addTetrisPiece(newShape);
                     if (hasEnd) {
                         currentShape = null;
+                        if(!sentScore){
+                            tetrisBoard.setEnds(tetrisBoard.getEnds()+1);
+                            sentScore = true;
+                            client.sendScore(scoreHandler);
+                        }
+                        else{
+                            if(tetrisBoard.getEnds() == tetrisBoard.getNumPlayers()){
+                                tetrisBoard.displayScores(scoreHandler);
+                            }
+                        }
+
                     } else {
                         currentShape = newShape;
                     }

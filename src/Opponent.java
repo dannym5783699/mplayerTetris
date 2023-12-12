@@ -16,6 +16,10 @@ public class Opponent {
     private Label playerNameLabel;
     private GridPane boardGrid;
     private HBox playerHBox;
+    private long opScore;
+    private int opLevel;
+    private int opClears;
+
 
     String strMatrix = "1-0-1-2-3-4-5-1-0-1-2-3-4-111111";
 
@@ -108,4 +112,27 @@ public class Opponent {
         this.playerName = name;
     }
 
+    public long getOpScore() {
+        return opScore;
+    }
+
+    public void setOpScore(long opScore) {
+        this.opScore = opScore;
+    }
+
+    public int getOpLevel() {
+        return opLevel;
+    }
+
+    public void setOpLevel(int opLevel) {
+        this.opLevel = opLevel;
+    }
+
+    public int getOpClears() {
+        return opClears;
+    }
+
+    public void setOpClears(int opClears) {
+        this.opClears = opClears;
+    }
 }

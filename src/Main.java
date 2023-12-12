@@ -36,7 +36,7 @@ public class Main extends Application {
 
         //Setting up opponent boxes for presentation
 //        HBox topBox = new HBox();
-//        VBox opponent1and3 = new VBox();
+//        VBo x opponent1and3 = new VBox();
 //        VBox opponent2and4 = new VBox();
 //        Opponent opponent1 = new Opponent();
 //        Opponent opponent2 = new Opponent();

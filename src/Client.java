@@ -55,6 +55,22 @@ public class Client {
     }
 
 
+    public void sendScore(ScoreHandler scoreHandler){
+        if(socket.isConnected()){
+            try {
+
+
+                bufferedwriter.write(this.username + " " + scoreHandler.getCurrentScore() + "x" +
+                        scoreHandler.getCurrentLevel() + "x" + scoreHandler.getLineClears());
+                bufferedwriter.newLine();
+                bufferedwriter.flush();
+            }catch(IOException e){
+                closeEverything(socket, bufferedreader, bufferedwriter);
+            }
+        }
+    }
+
+
 
     public void listenForMessage() {
         new Thread(new Runnable() {
@@ -83,8 +99,11 @@ public class Client {
                     try {
                         msgFromServer = bufferedreader.readLine();
                         String[] values = msgFromServer.split(" ");
-                        if(values.length == 2) {
+                        if(values.length == 2 && (!values[1].contains("x"))) {
                             board.setPlayer(values[0], values[1]);
+                        }
+                        else if(values.length == 2){
+                            board.setScore(values[0], values[1]);
                         }
                     } catch (IOException e) {
                         closeEverything(socket, bufferedreader, bufferedwriter);
